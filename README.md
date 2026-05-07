@@ -249,5 +249,5 @@ Autor
 
 Desenvolvido por Jefferson Machado.
 
-LinkedIn: www.linkedin.com/in/thedevjeff
+LinkedIn: https://www.linkedin.com/in/thedevjeff  
 GitHub: https://github.com/JeffersonSouzaMachado
