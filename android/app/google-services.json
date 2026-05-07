@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293226026614",
+    "project_id": "proverbiando-app",
+    "storage_bucket": "proverbiando-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293226026614:android:60e55539d9c59aa54ab157",
+        "android_client_info": {
+          "package_name": "com.thedevjeff.proverbiando"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCA1J7DJ57gJ4hW_CMrYVUWo2r7IS-mOEo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
