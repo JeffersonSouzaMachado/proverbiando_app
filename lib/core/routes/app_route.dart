@@ -7,5 +7,6 @@ final router = GoRouter(
   routes: [
     GoRoute(path: '/', builder: (context, state) => SplashScreen()),
     GoRoute(path: '/home', builder: (context, state) => BottomNavScreen()),
+    GoRoute(path: '/saved-proverbs', builder: (context, state) => BottomNavScreen(newIndex: 1,)),
   ],
 );

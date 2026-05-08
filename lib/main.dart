@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:proverbiando/core/deep_link/app_link_listener.dart';
 import 'package:proverbiando/core/routes/app_route.dart';
 import 'package:proverbiando/features/home/presentation/pages/bottom_nav_screen.dart';
 import 'package:proverbiando/firebase_options.dart';
@@ -14,7 +15,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await initializeDateFormatting('pt_BR', null);
 
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(child: AppLinkListener(child: const MyApp())));
 }
 
 class MyApp extends StatelessWidget {
