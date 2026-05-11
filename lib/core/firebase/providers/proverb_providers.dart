@@ -7,6 +7,7 @@ import 'package:proverbiando/core/firebase/data/repositories/proverb_repository_
 import 'package:proverbiando/core/firebase/domain/repositories/proverb_repository.dart';
 import 'package:proverbiando/features/home/domain/usecases/get_random_proverb.usecase.dart';
 import 'package:proverbiando/features/home/domain/usecases/save_proverb_use_case.dart';
+import 'package:proverbiando/features/saved_proverbs/domain/usecases/delete_selected_proverb_use_case.dart';
 import 'package:proverbiando/features/saved_proverbs/domain/usecases/get_saved_proverbs_usecase.dart';
 
 final dioProvider = Provider<Dio>((ref) {
@@ -55,4 +56,11 @@ final getSavedProverbsUseCaseProvider = Provider<GetSavedProverbsUseCase>((
   final repository = ref.watch(proverbRepositoryProvider);
 
   return GetSavedProverbsUseCase(repository);
+});
+
+final deleteSelectedProverbProvider = Provider<DeleteSelectedProverbUseCase>((
+  ref,
+) {
+  final repository = ref.watch(proverbRepositoryProvider);
+  return DeleteSelectedProverbUseCase(repository: repository);
 });

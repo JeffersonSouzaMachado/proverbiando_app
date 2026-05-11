@@ -1,6 +1,7 @@
 import 'package:proverbiando/core/firebase/domain/entities/proverb_entity.dart';
 
 class ProverbModelFromFirebase {
+  final String id;
   final String text;
   final String reference;
   final String version;
@@ -9,6 +10,7 @@ class ProverbModelFromFirebase {
   final int? sharedTimes;
 
   ProverbModelFromFirebase({
+    required this.id,
     required this.text,
     required this.reference,
     required this.version,
@@ -19,6 +21,7 @@ class ProverbModelFromFirebase {
 
   factory ProverbModelFromFirebase.fromJson(Map<String, dynamic> json) {
     return ProverbModelFromFirebase(
+      id: json['id'],
       text: json['text'],
       reference: json['reference'],
       version: json['version'],
@@ -41,6 +44,7 @@ class ProverbModelFromFirebase {
 
   ProverbEntity toEntity() {
     return ProverbEntity(
+      id: id,
       text: text,
       reference: reference,
       version: version,
@@ -52,6 +56,7 @@ class ProverbModelFromFirebase {
 
   factory ProverbModelFromFirebase.fromEntity(ProverbEntity proverb) {
     return ProverbModelFromFirebase(
+      id: proverb.id ?? '',
       text: proverb.text,
       reference: proverb.reference,
       version: proverb.version,

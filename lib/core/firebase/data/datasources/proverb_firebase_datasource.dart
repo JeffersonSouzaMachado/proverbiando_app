@@ -15,6 +15,11 @@ abstract class ProverbFirebaseDatasource {
   Future<List<ProverbModelFromFirebase>> getSavedProverbs({
     required String userId,
   });
+
+  Future<void> deleteSelectedProverb({
+    required String userId,
+    required String proverbId,
+  });
 }
 
 class ProverbFirebaseDatasourceImpl implements ProverbFirebaseDatasource {
@@ -22,6 +27,7 @@ class ProverbFirebaseDatasourceImpl implements ProverbFirebaseDatasource {
 
   final FirebaseFirestore firestore;
   late final userCollection = firestore.collection('users');
+  final proverbCollection = 'savedProverbs';
 
   @override
   Future<void> saveProverb({
@@ -30,7 +36,7 @@ class ProverbFirebaseDatasourceImpl implements ProverbFirebaseDatasource {
   }) async {
     await userCollection
         .doc(userId)
-        .collection('savedProverbs')
+        .collection(proverbCollection)
         .add(proverb.toJson());
   }
 
@@ -41,7 +47,7 @@ class ProverbFirebaseDatasourceImpl implements ProverbFirebaseDatasource {
   }) async {
     final query = await userCollection
         .doc(userId)
-        .collection('savedProverbs')
+        .collection(proverbCollection)
         .where('reference', isEqualTo: reference)
         .limit(1)
         .get();
@@ -55,13 +61,29 @@ class ProverbFirebaseDatasourceImpl implements ProverbFirebaseDatasource {
   }) async {
     final data = await userCollection
         .doc(userId)
-        .collection('savedProverbs')
+        .collection(proverbCollection)
         .get();
 
     final proverbs = data.docs.map((doc) {
-      return ProverbModelFromFirebase.fromJson(doc.data());
+      return ProverbModelFromFirebase.fromJson({...doc.data(), 'id': doc.id});
     }).toList();
 
     return proverbs;
+  }
+
+  @override
+  Future<void> deleteSelectedProverb({
+    required String userId,
+    required String proverbId,
+  }) async {
+    try {
+      await userCollection
+          .doc(userId)
+          .collection(proverbCollection)
+          .doc(proverbId)
+          .delete();
+    } catch (e) {
+      throw Exception(e);
+    }
   }
 }

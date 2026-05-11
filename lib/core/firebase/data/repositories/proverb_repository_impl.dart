@@ -46,5 +46,18 @@ class ProverbRepositoryImpl implements ProverbRepository {
     return proverbList;
   }
 
-
+  @override
+  Future<void> deleteSelectedProverb({
+    required String userId,
+    required String proverbId,
+  }) async {
+    try {
+      await firebaseDatasource.deleteSelectedProverb(
+        userId: userId,
+        proverbId: proverbId,
+      );
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }
