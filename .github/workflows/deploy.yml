@@ -1,5 +1,4 @@
 name: Deploy Proverbiando - Android
-
 on:
   workflow_dispatch:
     inputs:
