@@ -12,6 +12,8 @@ O **Proverbiando** carrega um provérbio bíblico ao iniciar o aplicativo e perm
 
 Também é possível salvar provérbios favoritos, que ficam vinculados ao usuário por meio de autenticação anônima com Firebase.
 
+Também é possível remover provérbios salvos na tela de favoritos com o gesto de deslizar para a esquerda e confirmar a exclusão.
+
 Este projeto foi criado com foco em aprendizado, boas práticas e organização de código para servir como portfólio profissional.
 
 ---
@@ -22,6 +24,7 @@ Este projeto foi criado com foco em aprendizado, boas práticas e organização 
 - Atualizar o provérbio exibido
 - Salvar provérbios favoritos
 - Listar provérbios salvos
+- Apagar provérbios salvos
 - Autenticação anônima com Firebase
 - Persistência de dados no Cloud Firestore
 - Navegação com `GoRouter`
@@ -198,6 +201,7 @@ O Firebase é usado para:
 - Identificar o usuário atual
 - Salvar provérbios favoritos
 - Buscar provérbios salvos
+- Remover provérbios salvos
 
 ### Estrutura básica no Firestore
 
@@ -299,6 +303,7 @@ Projeto em desenvolvimento.
 - Autenticação anônima
 - Salvar provérbio no Firestore
 - Buscar provérbios salvos
+- Apagar provérbio salvo
 - Navegação com GoRouter
 - Recebimento de deep link no Android
 
@@ -326,5 +331,6 @@ Além da interface, o foco principal está na organização do código, separaç
 
 Desenvolvido por Jefferson Machado.
 
-LinkedIn: https://www.linkedin.com/in/thedevjeff
-GitHub: https://github.com/JeffersonSouzaMachado
+LinkedIn: https://www.linkedin.com/in/thedevjeff  
+GitHub: https://github.com/JeffersonSouzaMachado  
+WhatsApp: +551298821-5064
