@@ -9,4 +9,9 @@ abstract class ProverbRepository {
   });
 
   Future<List<ProverbEntity>> getSavedProverbs({required String userId});
+
+  Future<void> deleteSelectedProverb({
+    required String userId,
+    required String proverbId,
+  });
 }

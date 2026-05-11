@@ -100,7 +100,7 @@ class MainCard extends StatelessWidget {
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                                 Text(
-                                  'Guardar',
+                                  'Salvar',
                                   style: AppTextStyles.body.copyWith(
                                     color: Theme.of(
                                       context,

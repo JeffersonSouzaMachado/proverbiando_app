@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:proverbiando/features/home/presentation/providers/proverb_notifier.dart';
 import 'package:proverbiando/features/home/presentation/widgets/main_card.dart';
+import 'package:proverbiando/features/saved_proverbs/presentation/provider/saved_proverb_notifer.dart';
 
 class Homepage extends ConsumerWidget {
   const Homepage({super.key});
@@ -26,6 +27,10 @@ class Homepage extends ConsumerWidget {
               .saveCurrentProverb(proverb: data);
 
           if (!context.mounted) return;
+
+          if (wasSaved == true) {
+            ref.invalidate(savedProverbProvider);
+          }
 
           Fluttertoast.showToast(
             msg: wasSaved
