@@ -3,8 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:proverbiando/core/deep_link/app_link_listener.dart';
 import 'package:proverbiando/core/routes/app_route.dart';
-import 'package:proverbiando/features/home/presentation/pages/bottom_nav_screen.dart';
-import 'package:proverbiando/firebase_options.dart';
+import 'package:proverbiando/.env/firebase_options.dart';
 import 'package:proverbiando/util/theme/theme.dart';
 
 import 'package:firebase_core/firebase_core.dart';
