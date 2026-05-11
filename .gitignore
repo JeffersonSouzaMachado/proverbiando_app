@@ -49,3 +49,5 @@ lib/firebase_options.dart
 /ios/GoogleService-Info.plist
 /lib/.env/firebase_options.dart
 /ios/GoogleService-Info.plist
+/android/keystore-base64.txt
+/android/key.properties
