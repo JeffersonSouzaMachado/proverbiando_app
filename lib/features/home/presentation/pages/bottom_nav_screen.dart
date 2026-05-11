@@ -4,7 +4,9 @@ import 'package:proverbiando/features/saved_proverbs/presentation/page/saved_pro
 import 'package:proverbiando/util/text/app_text_styles.dart';
 
 class BottomNavScreen extends StatefulWidget {
-  const BottomNavScreen({super.key});
+  const BottomNavScreen({super.key, this.newIndex = 0});
+
+  final int newIndex;
 
   @override
   State<BottomNavScreen> createState() => _BottomNavScreen();
@@ -12,6 +14,13 @@ class BottomNavScreen extends StatefulWidget {
 
 class _BottomNavScreen extends State<BottomNavScreen> {
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    currentIndex = widget.newIndex;
+
+    super.initState();
+  }
 
   final pages = [Homepage(), SavedProverbsScreen()];
 
