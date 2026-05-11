@@ -45,6 +45,11 @@ jobs:
       - name: Pub get
         run: flutter pub get
 
+      - name: Decode Firebase options
+        run: |
+          mkdir -p lib/.env
+          echo "${{ secrets.FIREBASE_OPTIONS_DART_BASE64 }}" | base64 --decode > lib/.env/firebase_options.dart
+
       - name: Decode Android keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/upload-keystore.jks
