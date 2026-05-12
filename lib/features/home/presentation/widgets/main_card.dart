@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:proverbiando/core/firebase/domain/entities/proverb_entity.dart';
 import 'package:proverbiando/util/text/app_text_styles.dart';
@@ -51,7 +53,12 @@ class MainCard extends StatelessWidget {
                           ),
                           children: [
                             TextSpan(text: '- '),
-                            TextSpan(text: proverb.reference, style: AppTextStyles.body.copyWith(fontStyle: FontStyle.italic)),
+                            TextSpan(
+                              text: proverb.reference,
+                              style: AppTextStyles.body.copyWith(
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
                             TextSpan(text: ' -'),
                           ],
                         ),

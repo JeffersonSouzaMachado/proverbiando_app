@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:proverbiando/core/analytics/analytics_events.dart';
+import 'package:proverbiando/core/analytics/analytics_provider.dart';
 import 'package:proverbiando/core/firebase/domain/entities/proverb_entity.dart';
 import 'package:proverbiando/core/firebase/providers/firebase_providers.dart';
 import 'package:proverbiando/core/firebase/providers/proverb_providers.dart';
@@ -12,11 +14,19 @@ final savedProverbProvider =
 
 class SavedProverbNotifier extends AsyncNotifier<List<ProverbEntity>> {
   @override
-  FutureOr<List<ProverbEntity>> build() async{
+  FutureOr<List<ProverbEntity>> build() async {
     final user = await ref.read(currentUserProvider.future);
     final useCase = ref.watch(getSavedProverbsUseCaseProvider);
+    final proverbs = await useCase(userId: user.id);
 
-    return useCase(userId: user.id);
+    await ref
+        .read(analyticsServiceProvider)
+        .logEvent(
+          AnalyticsEvents.savedProverbsLoaded,
+          parameters: {'saved_count': proverbs.length},
+        );
+
+    return proverbs;
   }
 
   Future<void> refreshSavedProverbs() async {
@@ -26,7 +36,16 @@ class SavedProverbNotifier extends AsyncNotifier<List<ProverbEntity>> {
 
     state = await AsyncValue.guard(() async {
       final useCase = ref.read(getSavedProverbsUseCaseProvider);
-      return useCase(userId: user.id);
+      final proverbs = await useCase(userId: user.id);
+
+      await ref
+          .read(analyticsServiceProvider)
+          .logEvent(
+            AnalyticsEvents.savedProverbsRefreshed,
+            parameters: {'saved_count': proverbs.length},
+          );
+
+      return proverbs;
     });
   }
 }
