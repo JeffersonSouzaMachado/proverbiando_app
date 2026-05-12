@@ -13,7 +13,7 @@ class Homepage extends ConsumerWidget {
     final state = ref.watch(proverbNotifierProvider);
 
     return state.when(
-      skipLoadingOnRefresh: false,
+      skipLoadingOnRefresh: true,
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(child: Text('Error: $error')),
       data: (data) => MainCard(

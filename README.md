@@ -2,7 +2,7 @@
 
 Aplicativo mobile desenvolvido em Flutter que exibe provérbios bíblicos de forma simples, limpa e intuitiva.
 
-O objetivo do projeto é praticar e demonstrar uma arquitetura escalável usando Clean Architecture, Riverpod, consumo de API, autenticação anônima com Firebase, persistência de dados no Firestore e navegação com deep link.
+O objetivo do projeto é praticar e demonstrar uma arquitetura escalável usando Clean Architecture, Riverpod, consumo de API, autenticação anônima com Firebase, persistência de dados no Firestore, observabilidade com Analytics e Crashlytics, além de navegação com deep link.
 
 ---
 
@@ -27,6 +27,8 @@ Este projeto foi criado com foco em aprendizado, boas práticas e organização 
 - Apagar provérbios salvos
 - Autenticação anônima com Firebase
 - Persistência de dados no Cloud Firestore
+- Monitoramento de falhas com Firebase Crashlytics
+- Instrumentação de eventos com Firebase Analytics
 - Navegação com `GoRouter`
 - Suporte a deep link para abrir a área de provérbios salvos
 - Tratamento de estados com `AsyncValue`
@@ -88,6 +90,8 @@ No estado atual, o `Info.plist` não possui configuração de URL scheme para de
 - Riverpod
 - Firebase Auth
 - Cloud Firestore
+- Firebase Analytics
+- Firebase Crashlytics
 - Dio
 - GoRouter
 - app_links
@@ -103,6 +107,7 @@ O projeto segue os princípios da **Clean Architecture**, separando responsabili
 ```text
 lib/
 ├── core/
+│   ├── analytics/
 │   ├── deep_link/
 │   ├── firebase/
 │   ├── routes/
@@ -202,6 +207,8 @@ O Firebase é usado para:
 - Salvar provérbios favoritos
 - Buscar provérbios salvos
 - Remover provérbios salvos
+- Registrar eventos de uso com Analytics
+- Monitorar falhas em tempo de execução com Crashlytics
 
 ### Estrutura básica no Firestore
 
@@ -218,6 +225,57 @@ users/
             ├── version
             └── addedAt
 ```
+
+---
+
+## Observabilidade
+
+O projeto possui uma camada dedicada para observabilidade, separando telemetria de regras de negócio e mantendo a implementação aberta para novas integrações e novos eventos.
+
+### Analytics
+
+O Firebase Analytics é usado para registrar eventos importantes da experiência do usuário.
+
+Atualmente o app instrumenta eventos relacionados a:
+
+- carregamento inicial de provérbio
+- atualização de provérbio
+- salvamento de provérbio
+- tentativa de salvar um provérbio já salvo
+- carregamento da lista de provérbios salvos
+- atualização da lista de provérbios salvos
+- exclusão de provérbio salvo
+- troca de abas no `BottomNavigationBar`
+- visualização de telas com `screen_view`
+
+Os nomes dos eventos ficam centralizados para facilitar manutenção e futuras expansões.
+
+### Crashlytics
+
+O Firebase Crashlytics é inicializado na subida da aplicação e recebe:
+
+- erros fatais do Flutter
+- erros assíncronos capturados por `runZonedGuarded`
+- erros de plataforma capturados por `PlatformDispatcher`
+
+Essa configuração permite evoluir a estratégia de monitoramento sem alterar o fluxo principal da aplicação.
+
+### Estrutura atual
+
+A implementação foi organizada para permitir evolução sem espalhar chamadas de SDK pela interface:
+
+- `core/analytics/analytics_events.dart`: centraliza os nomes dos eventos
+- `core/analytics/analytics_service.dart`: define a abstração de telemetria
+- `core/analytics/firebase_analytics_service.dart`: implementa o envio para Firebase Analytics
+- `core/analytics/analytics_provider.dart`: expõe a dependência via Riverpod
+- `main.dart`: inicializa o Crashlytics e registra handlers globais de erro
+
+Esse formato facilita:
+
+- adicionar novos eventos sem alterar a arquitetura
+- trocar a implementação de telemetria no futuro
+- manter widgets e notifiers desacoplados do SDK
+- expandir a documentação conforme novas features forem instrumentadas
 
 ---
 
@@ -244,7 +302,10 @@ Este projeto demonstra conhecimento em:
 - Consumo de API com Dio
 - Firebase Authentication
 - Firestore
+- Firebase Analytics
+- Firebase Crashlytics
 - Deep linking
+- Observabilidade
 - Organização por features
 - Estrutura escalável para projetos Flutter
 
@@ -282,6 +343,8 @@ Também é necessário habilitar no Firebase Console:
 
 - Authentication anônima
 - Cloud Firestore
+- Analytics
+- Crashlytics
 
 5. Execute o app
 
@@ -304,6 +367,8 @@ Projeto em desenvolvimento.
 - Salvar provérbio no Firestore
 - Buscar provérbios salvos
 - Apagar provérbio salvo
+- Eventos com Firebase Analytics
+- Captura de falhas com Firebase Crashlytics
 - Navegação com GoRouter
 - Recebimento de deep link no Android
 
