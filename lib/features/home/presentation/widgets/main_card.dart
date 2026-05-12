@@ -24,106 +24,111 @@ class MainCard extends StatelessWidget {
         width: double.infinity,
         child: Card(
           elevation: 5,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-
-            children: [
-              Stack(
-                children: [
-                  decorationMarks(context),
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
-                        child: SelectableText(
-                          '"${proverb.text}"',
-                          style: AppTextStyles.h1.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      SizedBox(height: 30),
-
-                      Text.rich(
-                        TextSpan(
-                          style: AppTextStyles.body.copyWith(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints:  BoxConstraints(minHeight: constraints.maxHeight),
+                  child: Center(
+                    child: Stack(
+                      children: [
+                        decorationMarks(context),
+                        Column(
+                          mainAxisSize: MainAxisSize.max,
                           children: [
-                            TextSpan(text: '- '),
-                            TextSpan(
-                              text: proverb.reference,
-                              style: AppTextStyles.body.copyWith(
-                                fontStyle: FontStyle.italic,
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(10, 40, 10, 0),
+                              child: SelectableText(
+                                '"${proverb.text}"',
+                                style: AppTextStyles.h1.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                            TextSpan(text: ' -'),
+                            SizedBox(height: 30),
+
+                            Text.rich(
+                              TextSpan(
+                                style: AppTextStyles.body.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                children: [
+                                  TextSpan(text: '- '),
+                                  TextSpan(
+                                    text: proverb.reference,
+                                    style: AppTextStyles.body.copyWith(
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                  TextSpan(text: ' -'),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Divider(
+                                thickness: 0.15,
+                                endIndent: 30,
+                                indent: 30,
+                              ),
+                            ),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    refreshProverb();
+                                  },
+                                  icon: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.refresh,
+                                        color: Theme.of(context).colorScheme.primary,
+                                      ),
+                                      Text(
+                                        'Novo',
+                                        style: AppTextStyles.body.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    saveProverb();
+                                  },
+                                  icon: Column(
+                                    children: [
+                                      Icon(
+                                        Icons.bookmark_add_outlined,
+                                        color: Theme.of(context).colorScheme.primary,
+                                      ),
+                                      Text(
+                                        'Salvar',
+                                        style: AppTextStyles.body.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.primary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Divider(
-                          thickness: 0.15,
-                          endIndent: 30,
-                          indent: 30,
-                        ),
-                      ),
-
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              refreshProverb();
-                            },
-                            icon: Column(
-                              children: [
-                                Icon(
-                                  Icons.refresh,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                Text(
-                                  'Novo',
-                                  style: AppTextStyles.body.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          IconButton(
-                            onPressed: () {
-                              saveProverb();
-                            },
-                            icon: Column(
-                              children: [
-                                Icon(
-                                  Icons.bookmark_add_outlined,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                Text(
-                                  'Salvar',
-                                  style: AppTextStyles.body.copyWith(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ],
+                ),
+              );
+            }
           ),
         ),
       ),
