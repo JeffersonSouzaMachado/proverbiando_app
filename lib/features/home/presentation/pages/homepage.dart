@@ -16,31 +16,33 @@ class Homepage extends ConsumerWidget {
       skipLoadingOnRefresh: true,
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(child: Text('Error: $error')),
-      data: (data) => MainCard(
-        proverb: data,
-        refreshProverb: () {
-          ref.read(proverbNotifierProvider.notifier).refreshProverb();
-        },
-        saveProverb: () async {
-          final wasSaved = await ref
-              .read(proverbNotifierProvider.notifier)
-              .saveCurrentProverb(proverb: data);
+      data: (data) {
+        return MainCard(
+          proverb: data,
+          refreshProverb: () {
+            ref.read(proverbNotifierProvider.notifier).refreshProverb();
+          },
+          saveProverb: () async {
+            final wasSaved = await ref
+                .read(proverbNotifierProvider.notifier)
+                .saveCurrentProverb(proverb: data);
 
-          if (!context.mounted) return;
+            if (!context.mounted) return;
 
-          if (wasSaved == true) {
-            ref.invalidate(savedProverbProvider);
-          }
+            if (wasSaved == true) {
+              ref.invalidate(savedProverbProvider);
+            }
 
-          Fluttertoast.showToast(
-            msg: wasSaved
-                ? 'Provérbio salvo com sucesso!'
-                : 'Esse provérbio já está salvo.',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-          );
-        },
-      ),
+            Fluttertoast.showToast(
+              msg: wasSaved
+                  ? 'Provérbio salvo com sucesso!'
+                  : 'Esse provérbio já está salvo.',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+            );
+          },
+        );
+      },
     );
   }
 }
