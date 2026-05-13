@@ -6,6 +6,7 @@ import 'package:proverbiando/features/home/presentation/pages/homepage.dart';
 import 'package:proverbiando/features/saved_proverbs/presentation/page/saved_proverbs_screen.dart';
 import 'package:proverbiando/util/text/app_text_styles.dart';
 
+
 class BottomNavScreen extends ConsumerStatefulWidget {
   const BottomNavScreen({super.key, this.newIndex = 0});
 
@@ -47,6 +48,8 @@ class _BottomNavScreen extends ConsumerState<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
+    // if(true) return UpdateScreen();
 
     return Scaffold(
       body: SafeArea(child: pages[currentIndex]),
