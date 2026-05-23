@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:proverbiando/core/firebase/providers/firebase_providers.dart';
+import 'package:proverbiando/core/notifications/notification_provider.dart';
+import 'package:proverbiando/core/permissions/app_permission.dart';
+import 'package:proverbiando/core/permissions/permission_provider.dart';
 import 'package:proverbiando/features/app_update/presentation/providers/app_config_notifier.dart';
 import 'package:proverbiando/util/theme/app_colors.dart';
 
@@ -13,6 +16,30 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  var _notificationsInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeNotifications();
+    });
+  }
+
+  Future<void> _initializeNotifications() async {
+    if (_notificationsInitialized || !mounted) {
+      return;
+    }
+
+    _notificationsInitialized = true;
+
+    await ref
+        .read(permissionServiceProvider)
+        .ensureGranted(context, AppPermission.notifications);
+
+    await ref.read(pushNotificationServiceProvider).initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appVersionStatus = ref.watch(appVersionStatusProvider);

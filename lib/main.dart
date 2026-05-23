@@ -1,16 +1,17 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:proverbiando/core/deep_link/app_link_listener.dart';
-import 'package:proverbiando/core/routes/app_route.dart';
 import 'package:proverbiando/.env/firebase_options.dart';
+import 'package:proverbiando/core/deep_link/app_link_listener.dart';
+import 'package:proverbiando/core/notifications/push_notification_service.dart';
+import 'package:proverbiando/core/routes/app_route.dart';
 import 'package:proverbiando/util/theme/theme.dart';
-
-import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   runZonedGuarded(
@@ -20,6 +21,8 @@ void main() async {
       await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform,
       );
+
+      FirebaseMessaging.onBackgroundMessage(handleFirebaseMessageInBackground);
 
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(
         kReleaseMode,
@@ -35,7 +38,14 @@ void main() async {
         return true;
       };
 
-      runApp(ProviderScope(child: AppLinkListener(child: const MyApp())));
+      final container = ProviderContainer();
+
+      runApp(
+        UncontrolledProviderScope(
+          container: container,
+          child: AppLinkListener(child: const MyApp()),
+        ),
+      );
     },
     (error, stack) {
       FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
